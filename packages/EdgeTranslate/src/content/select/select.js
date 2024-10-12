@@ -376,28 +376,28 @@ function cancelTextSelection() {
     }
 }
 
-/**
- * 处理取消网页翻译的快捷键
- */
-function cancelPageTranslate() {
-    let checkAndClick = (button) => {
-        if (button !== null && button !== undefined) {
-            button.click();
-        }
-    };
+// /**
+//  * 处理取消网页翻译的快捷键
+//  */
+// function cancelPageTranslate() {
+//     let checkAndClick = (button) => {
+//         if (button !== null && button !== undefined) {
+//             button.click();
+//         }
+//     };
 
-    let frame = document.getElementById(":0.container");
-    if (frame !== null && frame !== undefined) {
-        let cancelButton = frame.contentDocument.getElementById(":0.close");
-        checkAndClick(cancelButton);
-    }
+//     let frame = document.getElementById(":0.container");
+//     if (frame !== null && frame !== undefined) {
+//         let cancelButton = frame.contentDocument.getElementById(":0.close");
+//         checkAndClick(cancelButton);
+//     }
 
-    frame = document.getElementById("OUTFOX_JTR_BAR");
-    if (frame !== null && frame !== undefined) {
-        let cancelButton = frame.contentDocument.getElementById("OUTFOX_JTR_BAR_CLOSE");
-        checkAndClick(cancelButton);
-    }
-}
+//     frame = document.getElementById("OUTFOX_JTR_BAR");
+//     if (frame !== null && frame !== undefined) {
+//         let cancelButton = frame.contentDocument.getElementById("OUTFOX_JTR_BAR_CLOSE");
+//         checkAndClick(cancelButton);
+//     }
+// }
 
 /**
  * The container of the translation button can be either an iframe or a div with a shadow dom.
@@ -425,9 +425,9 @@ channel.on("command", (detail) => {
         case "pronounce_selected":
             pronounceSubmit();
             break;
-        case "cancel_page_translate":
-            cancelPageTranslate();
-            break;
+        // case "cancel_page_translate":
+        //     cancelPageTranslate();
+        //     break;
         default:
             break;
     }

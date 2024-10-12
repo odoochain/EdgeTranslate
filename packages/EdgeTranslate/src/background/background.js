@@ -1,4 +1,4 @@
-import { TranslatorManager, translatePage, executeGoogleScript } from "./library/translate.js";
+import { TranslatorManager } from "./library/translate.js";
 import {
     addUrlBlacklist,
     addDomainBlacklist,
@@ -6,7 +6,6 @@ import {
     removeDomainBlacklist,
     updateBLackListMenu,
 } from "./library/blacklist.js";
-import { sendHitRequest } from "./library/analytics.js";
 import { promiseTabs } from "common/scripts/promise.js";
 import Channel from "common/scripts/channel.js";
 import { getDomain } from "common/scripts/common.js";
@@ -38,17 +37,17 @@ chrome.contextMenus.create({
     contexts: ["browser_action"],
 });
 
-chrome.contextMenus.create({
-    id: "translate_page",
-    title: chrome.i18n.getMessage("TranslatePage"),
-    contexts: ["page"],
-});
+// chrome.contextMenus.create({
+//     id: "translate_page",
+//     title: chrome.i18n.getMessage("TranslatePage"),
+//     contexts: ["page"]
+// });
 
-chrome.contextMenus.create({
-    id: "translate_page_google",
-    title: chrome.i18n.getMessage("TranslatePageGoogle"),
-    contexts: ["browser_action"],
-});
+// chrome.contextMenus.create({
+//     id: "translate_page_google",
+//     title: chrome.i18n.getMessage("TranslatePageGoogle"),
+//     contexts: ["browser_action"],
+// });
 
 chrome.contextMenus.create({
     id: "add_url_blacklist",
@@ -99,20 +98,20 @@ chrome.runtime.onInstalled.addListener(async (details) => {
             });
 
             // 告知用户数据收集相关信息
-            chrome.notifications.create("data_collection_notification", {
-                type: "basic",
-                iconUrl: "./icon/icon128.png",
-                title: chrome.i18n.getMessage("AppName"),
-                message: chrome.i18n.getMessage("DataCollectionNotice"),
-            });
+            // chrome.notifications.create("data_collection_notification", {
+            //     type: "basic",
+            //     iconUrl: "./icon/icon128.png",
+            //     title: chrome.i18n.getMessage("AppName"),
+            //     message: chrome.i18n.getMessage("DataCollectionNotice")
+            // });
 
             // 尝试发送安装事件
-            setTimeout(() => {
-                sendHitRequest("background", "event", {
-                    ec: "installation", // event category
-                    ea: "installation", // event label
-                });
-            }, 10 * 60 * 1000); // 10 min
+            // setTimeout(() => {
+            //     sendHitRequest("background", "event", {
+            //         ec: "installation", // event category
+            //         ea: "installation" // event label
+            //     });
+            // }, 10 * 60 * 1000); // 10 min
         } else if (details.reason === "update") {
             await new Promise((resolve) => {
                 chrome.storage.sync.get((result) => {
@@ -175,12 +174,12 @@ chrome.notifications.onClicked.addListener((notificationId) => {
                 url: "https://github.com/EdgeTranslate/EdgeTranslate/releases",
             });
             break;
-        case "data_collection_notification":
-            chrome.tabs.create({
-                // 为设置页面单独创建一个标签页
-                url: chrome.runtime.getURL("options/options.html#google-analytics"),
-            });
-            break;
+        // case "data_collection_notification":
+        //     chrome.tabs.create({
+        //         // 为设置页面单独创建一个标签页
+        //         url: chrome.runtime.getURL("options/options.html#google-analytics")
+        //     });
+        //     break;
         default:
             break;
     }
@@ -208,12 +207,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                     return Promise.resolve(error);
                 });
             break;
-        case "translate_page":
-            translatePage(channel);
-            break;
-        case "translate_page_google":
-            executeGoogleScript(channel);
-            break;
+        // case "translate_page":
+        //     translatePage(channel);
+        //     break;
+        // case "translate_page_google":
+        //     executeGoogleScript(channel);
+        //     break;
         case "settings":
             chrome.runtime.openOptionsPage();
             break;
@@ -290,9 +289,9 @@ channel.provide("get_lang", () => {
  */
 chrome.commands.onCommand.addListener((command) => {
     switch (command) {
-        case "translate_page":
-            translatePage(channel);
-            break;
+        // case "translate_page":
+        //     translatePage(channel);
+        //     break;
         default:
             promiseTabs
                 .query({ active: true, currentWindow: true })
@@ -305,35 +304,35 @@ chrome.commands.onCommand.addListener((command) => {
 /**
  * Modify the CSP header of translate requests.
  */
-chrome.webRequest.onHeadersReceived.addListener(
-    (details) => ({
-        responseHeaders: details.responseHeaders.map((header) =>
-            /^content-security-policy$/i.test(header.name)
-                ? {
-                      name: header.name,
-                      value: header.value
-                          .replaceAll(
-                              // Remove 'none' and "none".
-                              /((^|;)\s*(default-src|script-src|img-src|connect-src|frame-src))\s+['"]none['"]/g,
-                              "$1 "
-                          )
-                          .replaceAll(
-                              // Add Google Page Translate related domains.
-                              // The last "\s" is added to prevent matching script-src-attr, script-src-elem, etc..
-                              /((^|;)\s*(default-src|script-src|img-src|connect-src))\s/g,
-                              // eslint-disable-next-line prefer-template
-                              "$1 'unsafe-inline' translate.googleapis.com translate.google.com *.google.com *.gstatic.com " +
-                                  chrome.runtime.getURL("") +
-                                  " "
-                          )
-                          .replaceAll(/((^|;)\s*frame-src)\s/g, "$1 'self' "), // Allow frame-src to the page itself.
-                  }
-                : header
-        ),
-    }),
-    { urls: ["*://*/*"], types: ["main_frame", "sub_frame"] },
-    ["blocking", "responseHeaders"]
-);
+// chrome.webRequest.onHeadersReceived.addListener(
+//     (details) => ({
+//         responseHeaders: details.responseHeaders.map((header) =>
+//             /^content-security-policy$/i.test(header.name)
+//                 ? {
+//                       name: header.name,
+//                       value: header.value
+//                           .replaceAll(
+//                               // Remove 'none' and "none".
+//                               /((^|;)\s*(default-src|script-src|img-src|connect-src|frame-src))\s+['"]none['"]/g,
+//                               "$1 "
+//                           )
+//                           .replaceAll(
+//                               // Add Google Page Translate related domains.
+//                               // The last "\s" is added to prevent matching script-src-attr, script-src-elem, etc..
+//                               /((^|;)\s*(default-src|script-src|img-src|connect-src))\s/g,
+//                               // eslint-disable-next-line prefer-template
+//                               "$1 'unsafe-inline' translate.googleapis.com translate.google.com *.google.com *.gstatic.com " +
+//                                   chrome.runtime.getURL("") +
+//                                   " "
+//                           )
+//                           .replaceAll(/((^|;)\s*frame-src)\s/g, "$1 'self' "), // Allow frame-src to the page itself.
+//                   }
+//                 : header
+//         ),
+//     }),
+//     { urls: ["*://*/*"], types: ["main_frame", "sub_frame"] },
+//     ["blocking", "responseHeaders"]
+// );
 
 /**
  * Modify the CSP header of DeepL home page.
@@ -409,9 +408,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 );
 
 // send basic hit data to google analytics
-setTimeout(() => {
-    sendHitRequest("background", "pageview", null);
-}, 60 * 1000);
+// setTimeout(() => {
+//     sendHitRequest("background", "pageview", null);
+// }, 60 * 1000);
 
 /**
  * dynamic importing hot reload function only in development env

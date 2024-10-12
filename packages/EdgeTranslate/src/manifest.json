@@ -58,15 +58,6 @@
         },
         "change_mutual_translate": {
             "description": "__MSG_MutualTranslation__"
-        },
-        "translate_page": {
-            "description": "__MSG_TranslatePage__"
-        },
-        "cancel_page_translate": {
-            "description": "__MSG_CancelPageTranslate__"
-        },
-        "toggle_page_translate_banner": {
-            "description": "__MSG_TogglePageTranslateBanner__"
         }
     },
     "web_accessible_resources": ["**/*.css", "**/*.png", "google/*"],
@@ -80,5 +71,6 @@
         "open_in_tab": true,
         "chrome_style": false
     },
+    "content_security_policy": "script-src 'self'; object-src 'self'",
     "manifest_version": 2
 }

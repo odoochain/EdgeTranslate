@@ -1,5 +1,5 @@
 import { HybridTranslator } from "@edge_translate/translators";
-import { log } from "common/scripts/common.js";
+// import { log } from "common/scripts/common.js";
 import { promiseTabs, delayPromise } from "common/scripts/promise.js";
 import { DEFAULT_SETTINGS, getOrSetDefaultSettings } from "common/scripts/settings.js";
 import LocalTTS from "./local_tts.js";
@@ -94,10 +94,10 @@ class TranslatorManager {
      * This should be called for only once!
      */
     listenToEvents() {
-        // Google page translate button clicked event.
-        this.channel.on("translate_page_google", () => {
-            executeGoogleScript(this.channel);
-        });
+        // // Google page translate button clicked event.
+        // this.channel.on("translate_page_google", () => {
+        //     executeGoogleScript(this.channel);
+        // });
 
         // Language setting updated event.
         this.channel.on("language_setting_update", this.onLanguageSettingUpdated.bind(this));
@@ -425,41 +425,41 @@ class TranslatorManager {
     }
 }
 
-/**
- * 使用用户选定的网页翻译引擎翻译当前网页。
- *
- * @param {import("../../common/scripts/channel.js").default} channel Communication channel.
- */
-function translatePage(channel) {
-    getOrSetDefaultSettings(["DefaultPageTranslator"], DEFAULT_SETTINGS).then((result) => {
-        let translator = result.DefaultPageTranslator;
-        switch (translator) {
-            case "GooglePageTranslate":
-                executeGoogleScript(channel);
-                break;
-            default:
-                executeGoogleScript(channel);
-                break;
-        }
-    });
-}
+// /**
+//  * 使用用户选定的网页翻译引擎翻译当前网页。
+//  *
+//  * @param {import("../../common/scripts/channel.js").default} channel Communication channel.
+//  */
+// function translatePage(channel) {
+//     getOrSetDefaultSettings(["DefaultPageTranslator"], DEFAULT_SETTINGS).then((result) => {
+//         let translator = result.DefaultPageTranslator;
+//         switch (translator) {
+//             case "GooglePageTranslate":
+//                 executeGoogleScript(channel);
+//                 break;
+//             default:
+//                 executeGoogleScript(channel);
+//                 break;
+//         }
+//     });
+// }
 
-/**
- * 执行谷歌网页翻译相关脚本。
- *
- * @param {import("../../common/scripts/channel.js").default} channel Communication channel.
- */
-function executeGoogleScript(channel) {
-    chrome.tabs.executeScript({ file: "/google/init.js" }, (result) => {
-        if (chrome.runtime.lastError) {
-            log(`Chrome runtime error: ${chrome.runtime.lastError}`);
-            log(`Detail: ${result}`);
-        } else {
-            promiseTabs.query({ active: true, currentWindow: true }).then((tabs) => {
-                channel.emitToTabs(tabs[0].id, "start_page_translate", { translator: "google" });
-            });
-        }
-    });
-}
+// /**
+//  * 执行谷歌网页翻译相关脚本。
+//  *
+//  * @param {import("../../common/scripts/channel.js").default} channel Communication channel.
+//  */
+// function executeGoogleScript(channel) {
+//     chrome.tabs.executeScript({ file: "/google/init.js" }, (result) => {
+//         if (chrome.runtime.lastError) {
+//             log(`Chrome runtime error: ${chrome.runtime.lastError}`);
+//             log(`Detail: ${result}`);
+//         } else {
+//             promiseTabs.query({ active: true, currentWindow: true }).then((tabs) => {
+//                 channel.emitToTabs(tabs[0].id, "start_page_translate", { translator: "google" });
+//             });
+//         }
+//     });
+// }
 
-export { TranslatorManager, translatePage, executeGoogleScript };
+export { TranslatorManager };

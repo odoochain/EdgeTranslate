@@ -214,7 +214,7 @@
                     </div>
                 </div>
 
-                <label class="setting-title i18n" data-i18n-name="DefaultPageTranslator"></label>
+                <!-- <label class="setting-title i18n" data-i18n-name="DefaultPageTranslator"></label>
                 <div class="row">
                     <div class="column">
                         <label
@@ -234,6 +234,12 @@
                         </label>
                     </div>
                 </div>
+                <div class="column">
+                    <label for="google-page-translator" class="checked-label i18n" data-i18n-name="GooglePageTranslate">                            
+                        <input type="radio" value="GooglePageTranslate" setting-type="radio" setting-path="DefaultPageTranslator" class="radio" name="default-page-translator" id="google-page-translator">
+                    </label>                        
+                </div>                     -->
+            </div>
 
                 <label
                     for="layout-settings"
@@ -354,23 +360,13 @@
                             ></label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="column">
-                            <input
-                                type="checkbox"
-                                setting-type="switch"
-                                setting-path="OtherSettings UsePDFjs"
-                                class="switch"
-                                id="use-pdf-js"
-                            />
-                            <span class="space"></span>
-                            <label
-                                for="use-pdf-js"
-                                class="checked-label i18n"
-                                data-i18n-name="UsePDFjs"
-                            ></label>
-                        </div>
+                    <!-- <div class="row">
+                    <div class="column">
+                        <input type="checkbox" setting-type="switch" setting-path="OtherSettings UsePDFjs" class="switch" id="use-pdf-js">
+                        <span class="space"></span>
+                        <label for="use-pdf-js" class="checked-label i18n" data-i18n-name="UsePDFjs"></label>                    
                     </div>
+                </div> -->
                     <div class="row">
                         <div class="column">
                             <input
@@ -422,31 +418,15 @@
                             ></label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="column">
-                            <input
-                                type="checkbox"
-                                setting-type="switch"
-                                setting-path="OtherSettings UseGoogleAnalytics"
-                                class="switch"
-                                id="google-analytics"
-                            />
-                            <span class="space"></span>
-                            <label
-                                for="google-analytics"
-                                class="checked-label i18n"
-                                data-i18n-name="UseGoogleAnalytics"
-                            ></label>
-                            <span class="space"></span>
-                            (<a
-                                id="PrivacyPolicyLink"
-                                target="blank"
-                                class="i18n"
-                                data-i18n-name="PrivacyPolicy"
-                            ></a
-                            >)
-                        </div>
+                    <!-- <div class="row">
+                    <div class="column">
+                        <input type="checkbox" setting-type="switch" setting-path="OtherSettings UseGoogleAnalytics" class="switch" id="google-analytics"/>
+                        <span class="space"></span>
+                        <label for="google-analytics" class="checked-label i18n" data-i18n-name="UseGoogleAnalytics"></label>
+                        <span class="space"></span>
+                        (<a id="PrivacyPolicyLink" target="blank" class="i18n" data-i18n-name="PrivacyPolicy"></a>)
                     </div>
+                </div> -->
                 </div>
             </div>
             <footer>
